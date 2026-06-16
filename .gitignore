@@ -1,0 +1,31 @@
+# Salida de graficos generados por el programa (raiz de cada modelo)
+/mm1/output/
+/inventario/output/
+
+# Pero SI versionar las imagenes copiadas a la carpeta del informe
+# (necesarias para compilar el .tex en Overleaf): informe/output/ no se ignora.
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# LaTeX (artefactos de compilacion, en cualquier subcarpeta informe/)
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+
+# Editores / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
