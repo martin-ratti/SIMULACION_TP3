@@ -1,0 +1,106 @@
+# Modelo de Inventario (s, S) en AnyLogic
+
+Este repositorio contiene la implementación en **AnyLogic** del modelo de inventario de revisión periódica **(s, S)**, basado en los parámetros de Law (capítulo 1.5). El objetivo es obtener la fuente de datos de simulación para contrastar con el modelo teórico y el script en Python.
+
+## 0. Resumen del Modelo
+- **Nivel de Inventario (I):** Variable de estado (entero, puede ser negativo por *backlog*).
+- **Eventos:** Basado en dinámica de eventos (sin colas).
+- **Revisión:** Mensual. Si `I < s`, se ordena hasta `S` (`S - I` unidades).
+- **Demora (lag):** Entrega con demora uniforme `U(0.5, 1.0)` meses.
+
+---
+
+## 1. Parámetros en `Main`
+Crear los siguientes **Parameters** en `Main`:
+- `s` (int, default: 20)
+- `S` (int, default: 40)
+- `nMonths` (int, default: 120)
+- `meanInterdemand` (double, default: 0.1)
+- `setupCost` (double, default: 32)
+- `incCost` (double, default: 3)
+- `holdingCost` (double, default: 1)
+- `shortageCost` (double, default: 5)
+
+---
+
+## 2. Variables de Estado
+Crear estas **Variables** en `Main`:
+- `inv` (int, init: 60)
+- `lastEventTime` (double, init: 0)
+- `orderingCost` (double, init: 0)
+- `holdingArea` (double, init: 0)
+- `shortageArea` (double, init: 0)
+- `amountOnOrder` (int, init: 0)
+
+### Función `updateAreas()` (Void)
+```java
+double dt = time() - lastEventTime;
+if (inv > 0) holdingArea  += inv * dt;
+if (inv < 0) shortageArea += (-inv) * dt;
+lastEventTime = time();
+3. Eventos
+3.1. demandEvent (Cyclic, Timeout)
+Recurrence time: exponential(1 / meanInterdemand)
+
+Action:
+
+Java
+updateAreas();
+double u = uniform();
+int d;
+if      (u < 1.0/6) d = 1;
+else if (u < 1.0/6 + 1.0/3) d = 2;
+else if (u < 1.0/6 + 2.0/3) d = 3;
+else d = 4;
+inv -= d;
+3.2. reviewEvent (Cyclic, Timeout)
+Recurrence time: 1
+
+Action:
+
+Java
+updateAreas();
+if (inv < s) {
+    int z = S - inv;
+    orderingCost += setupCost + incCost * z;
+    amountOnOrder += z;
+    double lag = uniform(0.5, 1.0);
+    create_deliveryEvent(lag, z); 
+}
+3.3. deliveryEvent (Dynamic Event)
+Parámetro: qty (int)
+
+Action:
+
+Java
+updateAreas();
+inv += qty;
+amountOnOrder -= qty;
+4. Configuración de Simulación
+Frenado: En Simulation: Main > Pestaña Model time > Stop time: 120.
+
+Cálculos finales: Crear función finalCosts() para obtener promedios mensuales:
+
+Java
+updateAreas();
+double ordering = orderingCost / nMonths;
+double holding  = holdingCost  * holdingArea  / nMonths;
+double shortage = shortageCost * shortageArea / nMonths;
+double total    = ordering + holding + shortage;
+5. Gráficos
+Time Plot: - Agregar en Main.
+
+Data: Value -> inv.
+
+Time window: nMonths.
+
+Title: "Nivel de Inventario".
+
+6. Experimento de Variación (Monte Carlo)
+Clic derecho en el modelo > New > Experiment > Parameter Variation.
+
+Replications: Marcar Use replications = 10.
+
+Randomness: Random seed (unique simulation runs).
+
+Parámetros: Ejecutar para cada par (s, S) y anotar el promedio de costos.
