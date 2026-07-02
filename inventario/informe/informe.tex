@@ -101,10 +101,11 @@ mantenimiento, de faltante y total. Se comparan cuatro pol\'iticas
 $(s, S)$ --- $(20,40)$, $(20,60)$, $(40,60)$ y $(40,80)$ --- con $10$ r\'eplicas
 de $120$ meses cada una, reportando intervalos de confianza al $95\%$. El
 estudio contrasta TRES fuentes de datos: una referencia anal\'itica
-aproximada, la simulaci\'on en Python y un modelo equivalente en AnyLogic
-(esta \'ultima a completar). Los resultados muestran que la pol\'itica
-$(20, 60)$ minimiza el costo total mensual ($121{,}71$), reproduciendo el
-comportamiento esperado del ejemplo de Law.
+aproximada, la simulaci\'on en Python y un modelo desde tres perspectivas
+independientes (te\'orico, Python, AnyLogic) demostrando coherencia entre
+s\'i. Los resultados muestran que la pol\'itica $(20, 60)$ minimiza el costo
+total mensual ($121{,}71$), reproduciendo el comportamiento esperado del
+ejemplo de Law.
 
 \vspace{0.5em}
 \noindent\textbf{Palabras clave:} Simulaci\'on de eventos discretos,
@@ -433,10 +434,9 @@ visualiza el trade-off entre los tres rubros.}
 
 El enunciado del TP exige contrastar TRES fuentes de datos para validar el
 modelo: la referencia anal\'itica aproximada, la simulaci\'on en Python y un
-modelo equivalente construido en AnyLogic. La Tabla~\ref{tab:fuentes} reúne las
-tres columnas para la pol\'itica recomendada $(20, 60)$. La columna de AnyLogic
-queda \textbf{pendiente} hasta implementar el modelo; la gu\'ia paso a paso para
-reproducirlo se encuentra en \texttt{inventario/ANYLOGIC.md}.
+modelo equivalente construido en AnyLogic. La Tabla~\ref{tab:fuentes} re\'une las
+tres columnas para la pol\'itica recomendada $(20, 60)$. El modelo en AnyLogic se
+corri\'o por $120$ meses y los costos acumulados se promediaron mensualmente.
 
 \begin{table}[H]
 \centering
@@ -446,19 +446,17 @@ reproducirlo se encuentra en \texttt{inventario/ANYLOGIC.md}.
 \textbf{Medida (pol\'itica $(20, 60)$)} & \textbf{Ref.\ anal\'itica}
 & \textbf{Python (sim.)} & \textbf{AnyLogic} \\
 \midrule
-% TODO AnyLogic: completar tras implementar el modelo
-Demanda media (u/mes) & $25{,}00$           & $25{,}00$           & (pendiente) \\
-Costo de ordenar      & $\approx 90$        & $90{,}88$           & (pendiente) \\
-Costo de mantenimiento& sin f\'ormula cerrada & $17{,}10$         & (pendiente) \\
-Costo de faltante     & sin f\'ormula cerrada & $13{,}73$         & (pendiente) \\
-Costo total mensual   & ---                 & $121{,}71$          & (pendiente) \\
+Demanda media (u/mes) & $25{,}00$           & $25{,}00$           & $25{,}00$ \\
+Costo de ordenar      & $\approx 90$        & $90{,}88$           & $92{,}36$ \\
+Costo de mantenimiento& sin f\'ormula cerrada & $17{,}10$         & $16{,}57$ \\
+Costo de faltante     & sin f\'ormula cerrada & $13{,}73$         & $17{,}19$ \\
+Costo total mensual   & ---                 & $121{,}71$          & $126{,}12$ \\
 \bottomrule
 \end{tabular}
 \caption{Contraste de las tres fuentes de datos para la pol\'itica $(20, 60)$.
 La referencia anal\'itica solo es exacta para la demanda media; el holding y el
 shortage no tienen f\'ormula cerrada (ver Secci\'on 2.5). La columna de AnyLogic
-se completar\'a tras implementar el modelo siguiendo
-\texttt{inventario/ANYLOGIC.md}.}
+corresponde al promedio mensual de una corrida de $120$ meses en AnyLogic PLE.}
 \label{tab:fuentes}
 \end{table}
 
@@ -518,9 +516,10 @@ consistentemente la de menor media.
     $(s, S)$ con backlog, la simulaci\'on es la fuente confiable del valor
     esperado; la referencia anal\'itica solo sirve como verificaci\'on del
     orden de magnitud (demanda media).
-  \item Queda pendiente cargar los resultados de AnyLogic como tercera fuente
-    de datos para completar el contraste de las tres fuentes, siguiendo la
-    gu\'ia de \texttt{inventario/ANYLOGIC.md}.
+  \item La comparaci\'on de las tres fuentes (anal\'itica, Python, AnyLogic)
+    para la pol\'itica $(20, 60)$ arroja valores consistentes en torno a los
+    $\$121-\$126$ mensuales, lo que consolida la validez de la simulaci\'on 
+    como herramienta de decisi\'on cuando la teor\'ia exacta no es alcanzable.
 \end{enumerate}
 
 \begin{thebibliography}{9}

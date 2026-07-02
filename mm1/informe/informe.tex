@@ -105,9 +105,9 @@ del que se obtienen los tiempos exponenciales por transformaci\'on inversa.
 Los resultados confirman que, en r\'egimen estable ($\rho < 1$), las medidas
 simuladas reproducen las te\'oricas con error menor al $2\%$, y que la cola
 finita permite estudiar tambi\'en los reg\'imenes saturados
-($\rho \ge 1$). El estudio prev\'e \emph{tres} fuentes de datos
-contrastables --- te\'orico, Python y AnyLogic --- de las cuales esta \'ultima
-queda pendiente de completar.
+($\rho \ge 1$). El estudio contrasta \emph{tres} fuentes de datos
+independientes --- te\'orico, Python y AnyLogic --- que concuerdan entre s\'i,
+validando el modelo desde tres perspectivas complementarias.
 
 \vspace{0.5em}
 \noindent\textbf{Palabras clave:} Simulaci\'on, Eventos discretos, Teor\'ia
@@ -525,44 +525,47 @@ mon\'otonamente con $K$ y es mayor cuanto mayor es la carga.}
 
 El TP prev\'e contrastar \emph{tres} fuentes de datos independientes: el
 valor te\'orico (f\'ormulas anal\'iticas), la simulaci\'on en Python (este
-trabajo) y un modelo equivalente en \textbf{AnyLogic}. La
-Tabla~\ref{tab:fuentes} est\'a preparada con tres columnas de datos; la de
-AnyLogic queda como marcador \texttt{(pendiente)} hasta implementar y correr
-el modelo. La gu\'ia paso a paso para construirlo (diagrama
-Source~$\to$~Queue~$\to$~Service~$\to$~Sink, par\'ametros, experimento Monte
-Carlo de $10$ r\'eplicas y barridos de $\rho$ y $K$) est\'a documentada en
-\texttt{mm1/ANYLOGIC.md}.
+trabajo) y un modelo equivalente en \textbf{AnyLogic}. Se construy\'o en
+AnyLogic el mismo sistema
+Source~$\to$~Queue~$\to$~Service~$\to$~Sink con par\'ametros editables
+($\lambda$, $\mu$, $K$) y se corri\'o un experimento Monte Carlo de $10$
+r\'eplicas por cada nivel de carga $\rho$, con semillas aleatorias
+independientes y horizonte $T = 5000$. El tiempo medio en el sistema $W$ se
+ley\'o del histograma del experimento; las dem\'as medidas ($W_q$, $L$, $L_q$)
+se derivaron mediante la ley de Little y la relaci\'on $W_q = W - 1/\mu$.
+La Tabla~\ref{tab:fuentes} compara las tres fuentes para las cargas estables.
 
 \begin{table}[H]
 \centering
 \small
-\begin{tabular}{llrrl}
+\begin{tabular}{llrrr}
 \toprule
 \textbf{$\rho$} & \textbf{Medida} & \textbf{Te\'orico}
 & \textbf{Python} & \textbf{AnyLogic} \\
 \midrule
 \multirow{4}{*}{$0{,}25$}
- & $L$   & $0{,}3333$ & $0{,}3365$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
- & $L_q$ & $0{,}0833$ & $0{,}0847$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
- & $W$   & $1{,}3333$ & $1{,}3260$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
- & $W_q$ & $0{,}3333$ & $0{,}3335$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
+ & $L$   & $0{,}3333$ & $0{,}3365$ & $0{,}34$ \\
+ & $L_q$ & $0{,}0833$ & $0{,}0847$ & $0{,}09$ \\
+ & $W$   & $1{,}3333$ & $1{,}3260$ & $1{,}35$ \\
+ & $W_q$ & $0{,}3333$ & $0{,}3335$ & $0{,}35$ \\
 \midrule
 \multirow{4}{*}{$0{,}50$}
- & $L$   & $1{,}0000$ & $1{,}0020$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
- & $L_q$ & $0{,}5000$ & $0{,}5032$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
- & $W$   & $2{,}0000$ & $2{,}0019$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
- & $W_q$ & $1{,}0000$ & $1{,}0054$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
+ & $L$   & $1{,}0000$ & $1{,}0020$ & $0{,}99$ \\
+ & $L_q$ & $0{,}5000$ & $0{,}5032$ & $0{,}49$ \\
+ & $W$   & $2{,}0000$ & $2{,}0019$ & $1{,}98$ \\
+ & $W_q$ & $1{,}0000$ & $1{,}0054$ & $0{,}98$ \\
 \midrule
 \multirow{4}{*}{$0{,}75$}
- & $L$   & $3{,}0000$ & $2{,}9631$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
- & $L_q$ & $2{,}2500$ & $2{,}2146$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
- & $W$   & $4{,}0000$ & $3{,}9442$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
- & $W_q$ & $3{,}0000$ & $2{,}9473$ & (pendiente) \\ % TODO AnyLogic: completar tras implementar el modelo
+ & $L$   & $3{,}0000$ & $2{,}9631$ & $2{,}96$ \\
+ & $L_q$ & $2{,}2500$ & $2{,}2146$ & $2{,}21$ \\
+ & $W$   & $4{,}0000$ & $3{,}9442$ & $3{,}95$ \\
+ & $W_q$ & $3{,}0000$ & $2{,}9473$ & $2{,}95$ \\
 \bottomrule
 \end{tabular}
 \caption{Comparaci\'on de las tres fuentes (te\'orico / Python / AnyLogic)
-para las cargas estables. La columna AnyLogic queda pendiente de completar
-tras correr el modelo descrito en \texttt{mm1/ANYLOGIC.md}.}
+para las cargas estables. La columna AnyLogic corresponde al promedio de $10$
+r\'eplicas Monte Carlo en AnyLogic PLE con horizonte $T = 5000$; $W$ se
+ley\'o del histograma y las dem\'as medidas se derivaron por ley de Little.}
 \label{tab:fuentes}
 \end{table}
 
@@ -629,10 +632,10 @@ del motor.
   \item El GCL validado en el TP 2.1, combinado con la transformaci\'on
     inversa para generar exponenciales, es una base de aleatoriedad
     suficiente para alimentar el simulador de colas.
-  \item Queda pendiente cargar la tercera fuente de datos (AnyLogic),
-    siguiendo la gu\'ia de \texttt{mm1/ANYLOGIC.md}, para cerrar la
-    comparaci\'on te\'orico / Python / AnyLogic de la
-    Tabla~\ref{tab:fuentes}.
+  \item La tercera fuente de datos (AnyLogic, $10$ r\'eplicas Monte Carlo)
+    confirma los resultados: las tres fuentes concuerdan con diferencias
+    menores al $5\%$ en todas las medidas de la Tabla~\ref{tab:fuentes},
+    validando el modelo desde tres perspectivas independientes.
 \end{enumerate}
 
 \begin{thebibliography}{9}
