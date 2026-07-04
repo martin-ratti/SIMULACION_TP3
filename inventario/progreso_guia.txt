@@ -1,1 +1,0 @@
-Queda hacer mover las variables y hacer las proyecciones, y las configuraciones de ejecucion
